@@ -1,0 +1,16 @@
+.form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.input-item{
+    display: flex;
+    flex-direction: column;
+}
+.add-new-location{
+    background: none;
+    border-radius: 8px;
+    padding: .5em;
+    max-width: 50%;
+}
