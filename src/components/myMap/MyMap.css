@@ -3,3 +3,13 @@
     height: 100vh;
     position: absolute;
 }
+#popup-container {
+    width: 200px;
+    height: 60px;
+    background: white;
+    border: 2px solid black;
+    position: absolute;
+}
+#popup{
+    color: green;
+}

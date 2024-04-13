@@ -5,6 +5,7 @@ import App from './App.jsx'
 import TileLayerContextProvider from './context/tileLayerContext/TileLayerContextProvider'
 import VectorLayerContextProvider from './context/vectorLayerContext/VectorLayerContextProvider'
 import ViewContextProvider from './context/viewContext/ViewContextProvider'
+import InfoContextProvider from './context/infoContext/InfoContextProvider.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
@@ -12,7 +13,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <TileLayerContextProvider>
     <VectorLayerContextProvider>
       <ViewContextProvider>
-        <App />
+        <InfoContextProvider>
+          <App />
+        </InfoContextProvider>
       </ViewContextProvider>
     </VectorLayerContextProvider>
   </TileLayerContextProvider>
