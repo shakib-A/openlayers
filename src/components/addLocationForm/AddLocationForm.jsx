@@ -72,24 +72,24 @@ const AddLocationForm = () => {
       ? <form className='form'>
           <div className="input-item">
             <label  htmlFor="">name</label>
-            <input ref={nameInput} type="text" />
+            <input className='input' ref={nameInput} type="text" />
           </div>
 
           <div className="input-item">
             <label htmlFor="">description</label>
-            <input type="text" />
+            <input className='input' type="text" />
           </div>
 
           <div className="input-item">
             <label htmlFor="">long</label>
-            <input type="text" defaultValue={infoStore.selectedCoord[1]} />
+            <input className='input' type="text" defaultValue={infoStore.selectedCoord[1]} />
           </div>
 
           <div className="input-item">
             <label htmlFor="">lat</label>
-            <input type="text" defaultValue={infoStore.selectedCoord[0]} />
+            <input className='input' type="text" defaultValue={infoStore.selectedCoord[0]} />
           </div>
-          <button onClick={handleSubmit}>add</button>
+          <button className='submit-btn' onClick={handleSubmit}>add</button>
       </form> 
     : <button className='add-new-location' onClick={handleNewLocation}>Add New Location</button>
       }
