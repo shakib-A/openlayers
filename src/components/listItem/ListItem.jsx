@@ -18,19 +18,19 @@ const ListItem = ({ featureId, feature }) => {
 
 
 
-    const handleEdit = (id) => {
-        const inputElement = document.getElementById(`input-${id}`)
+    const handleEdit = () => {
+        const inputElement = document.getElementById(`input-${featureId}`)
         inputElement.readOnly = false
         inputElement.focus()
        }
 
-    const handleChange = (id, e) => {
+    const handleChange = (e) => {
         const inputElement = e.target
-        console.log(id)
+        console.log(featureId)
         if(e.key === 'Enter') {
           // set the value of the feature to input value
           const load = {
-            featureId: id,
+            featureId: featureId,
             newName: inputElement.value
           }
           dispatchVectorLayer({ type: 'EDIT_FEATURE_NAME', payload: load })
@@ -38,22 +38,21 @@ const ListItem = ({ featureId, feature }) => {
         }
       }
 
-      const handleDelete = (id) => {
-        dispatchVectorLayer({ type: 'REMOVE_LOCATION', payload: id })
+      const handleDelete = () => {
+        dispatchVectorLayer({ type: 'REMOVE_LOCATION', payload: featureId })
       }
 
-      const handleEditLocation = (featureArg) => {
+      const handleEditLocation = () => {
         // get the current Geometry
-        const id = featureArg.get('id')
-        const featureGeometry = featureArg.get('geometry')
-        const featureName = featureArg.get('name')
+        const featureGeometry = feature.get('geometry')
+        const featureName = feature.get('name')
         // create a pointer feature with 'name' property to keep the featore on the list
         // and 'type' property to enable modification.
         // use the the current Geometry to place the pointer
         const pointerFeature = new Feature({
           geometry: featureGeometry,
           name: featureName,
-          id: id,
+          id: featureId,
           type: 'pointer'
         })
         const featureStyle = new Style({
@@ -77,13 +76,12 @@ const ListItem = ({ featureId, feature }) => {
         setIsEditingLocation(true)
       }
 
-      const applyLocationEdit = (featureArg) => {
-        const featureName = featureArg.get('name')
-        const id = featureArg.get('id')
+      const applyLocationEdit = () => {
+        const featureName = feature.get('name')
         const newLocationFeature = new Feature({
           geometry: new Point(infoStore.selectedCoord),
           name: featureName,
-          id: id
+          id: featureId
         })
         const locationStyle = new Style({
           image: new Icon({
@@ -105,13 +103,13 @@ const ListItem = ({ featureId, feature }) => {
   return (
     <>
         <div className='list-item'>
-            <input readOnly id={`input-${featureId}`} className='list-input' type="text" onKeyDown={(event) => handleChange(featureId, event)}  defaultValue={feature.get('name')} />
+            <input readOnly id={`input-${featureId}`} className='list-input' type="text" onKeyDown={(event) => handleChange(event)}  defaultValue={feature.get('name')} />
             <div className='btn-container'>
-              <button onClick={() => handleEdit(featureId)} className='list-btn'>edit</button>
-              <button onClick={() => handleDelete(featureId)} className='list-btn'>delete</button>
+              <button onClick={() => handleEdit()} className='list-btn'>edit</button>
+              <button onClick={() => handleDelete()} className='list-btn'>delete</button>
               {isEditingLocation 
-              ? <button onClick={() => applyLocationEdit(feature)} className='list-btn editing-location'>Apply</button>
-              : <button onClick={() => handleEditLocation(feature)} className={`list-btn`}>Edit Location</button>
+              ? <button onClick={() => applyLocationEdit()} className='list-btn editing-location'>Apply</button>
+              : <button onClick={() => handleEditLocation()} className={`list-btn`}>Edit Location</button>
               }
             </div>
           </div>

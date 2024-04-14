@@ -12,12 +12,12 @@ const List = () => {
   return (
     <>
       {featuresArr
-      ? featuresArr.map((feature, index) => {
+      ? featuresArr.map((feature) => {
         // check if the feature is added on the map or not.
         // pointer feature doesn't have 'name' property
         if(feature.getKeys().includes('name')){
           const featureId = feature.get('id')
-          return <ListItem key={index}
+          return <ListItem key={featureId}
             feature={feature} 
             featureId={featureId}
           />}})
