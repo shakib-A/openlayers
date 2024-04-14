@@ -22,7 +22,7 @@ const AddLocationForm = () => {
      // create  pointer icon to point to the location that user wants.
      const pointerIcon = new Feature({
       geometry: new Point([0, 0]),
-      
+      type: 'pointer'
     })
     const iconStyle = new Style({
       image: new Icon({

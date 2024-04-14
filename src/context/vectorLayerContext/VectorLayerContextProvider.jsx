@@ -27,7 +27,7 @@ const reducer = (state, action) => {
           // =============================================
           const newFeatureArr = featuresArr
           const pointerFeature = newFeatureArr.findIndex((feature) => {
-            feature.getKeys().includes('name') === undefined
+            feature.get('type') === 'pointer'
           })
           newFeatureArr.splice(pointerFeature, 1)
           // =============================================
@@ -51,6 +51,38 @@ const reducer = (state, action) => {
             const newFeatureArr = featuresArr
             newFeatureArr[editedFeatureIndex].set('name', newName)
             console.log(newFeatureArr[editedFeatureIndex].get('name'))
+            return { ...state, initialVectoreLayer: new VectorLayer({
+              source: new VectorSource({
+                features: newFeatureArr
+              })
+            })}
+          }
+          case "REMOVE_LOCATION": {
+            const { featureId } = action.payload
+            // find edite feature and remove it
+            // ============================================================
+            const newFeatureArr = featuresArr
+            const editedFeatureIndex = newFeatureArr.findIndex((feature) => {
+              feature.getKeys().includes('id') === featureId
+            })
+            newFeatureArr.splice(editedFeatureIndex, 1)
+            // ============================================================
+            return { ...state, initialVectoreLayer: new VectorLayer({
+              source: new VectorSource({
+                features: newFeatureArr
+              })
+            })}
+          }
+          case "EDIT_LOCATION": {
+            const { featureId, pointerIcon } = action.payload
+            const newFeatureArr = featuresArr
+            // finde edited feature and replace it with new pointer received from payload
+            // ================================================================
+            const selectedFeatureIndex = newFeatureArr.findIndex((feature) => {
+              return feature.get('id') === featureId
+            })
+            newFeatureArr[selectedFeatureIndex] = pointerIcon
+            // ================================================================
             return { ...state, initialVectoreLayer: new VectorLayer({
               source: new VectorSource({
                 features: newFeatureArr

@@ -48,7 +48,6 @@ const MyMap = () => {
           })
           if(feature) {
             popupOvelay.setPosition(e.coordinate)
-            console.log(overlayContainer)
             popUp.innerHTML = feature.get('name')
           } else {
             return
@@ -61,7 +60,7 @@ const MyMap = () => {
         // ======================================================================
         const allFeatures = vectorLayerStore.initialVectoreLayer.get('source').getFeatures()
         const pointerFeature = allFeatures.filter((feature) => {
-          return feature.getKeys().includes('name') === false
+          return feature.get('type') === 'pointer'
         })
         const modifyableFeature = new Collection(pointerFeature) 
         // ======================================================================
