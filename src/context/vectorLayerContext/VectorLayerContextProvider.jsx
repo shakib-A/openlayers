@@ -1,5 +1,6 @@
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
+import GeoJSON from 'ol/format/GeoJSON.js';
 import React, { createContext, useReducer } from 'react'
 export const vectorLayerContext = createContext(null)
 
@@ -88,6 +89,14 @@ const reducer = (state, action) => {
                 features: newFeatureArr
               })
             })}
+          }
+          case "TOGGLE_GEOJSON": {
+            const { geoJsonObject } = action.payload
+            return { ...state, initialVectoreLayer: new VectorLayer({
+              source: new VectorSource({
+                features:  new GeoJSON().readFeatures(JSON.stringify(geoJsonObject))
+              })
+            }) }
           }
     }
 }

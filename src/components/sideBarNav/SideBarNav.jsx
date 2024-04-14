@@ -6,9 +6,11 @@ import close_icon from '../../assets/close-svgrepo-com.svg'
 // HOC Accordion
 import withAccordion from '../../HOC/accordion/Accordion'
 import LocationList from '../locationList/LocationList'
+import GeoJsonToggler from '../geoJsonToggler/GeoJsonToggler'
 import { infoContext } from '../../context/infoContext/InfoContextProvider'
 
 const LocationListWithAccordion = withAccordion(LocationList)
+const LocationListWithGeoJsonToggler = withAccordion(GeoJsonToggler)
 
 const SideBarNav = () => {
 
@@ -22,6 +24,9 @@ const SideBarNav = () => {
             </div>
             <LocationListWithAccordion
               name={'Location List'}
+            />
+            <LocationListWithGeoJsonToggler 
+              name={'GeoJson Toggler'}
             />
         </div>
     </>

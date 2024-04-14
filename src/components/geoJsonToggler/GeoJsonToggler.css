@@ -1,0 +1,7 @@
+.toggler{
+    background: none;
+    padding: 2px 8px;
+    border: 1px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+}
