@@ -40,7 +40,8 @@ const MyMap = () => {
         })
 
         initialMap.addOverlay(popupOvelay)
-        
+        popupOvelay.setPosition(undefined)
+
         initialMap.on('click', function(e) {
           popupOvelay.setPosition(undefined)
           const feature = initialMap.forEachFeatureAtPixel(e.pixel, (feature) => {
@@ -56,8 +57,8 @@ const MyMap = () => {
         // ================================================
 
         // extracting the pointerFeature --> adding it to new Collection
-        // --> add the collection to modify.features to only modify pointer feature
-        // ======================================================================
+        // --> add the collection to modify.features to only modify pointer feature icon
+        // ==============================================================================
         const allFeatures = vectorLayerStore.initialVectoreLayer.get('source').getFeatures()
         const pointerFeature = allFeatures.filter((feature) => {
           return feature.get('type') === 'pointer'
@@ -77,10 +78,7 @@ const MyMap = () => {
             if(evt.type === 'modifyend') {
                 console.log(modify.getOverlay().getSource().getFeatures()[0].getGeometry().getCoordinates())
                 const selectedCoordinate = modify.getOverlay().getSource().getFeatures()[0].getGeometry().getCoordinates()
-                dispatchInfo({
-                  type: 'SET_SELECTED_COORD',
-                  payload: selectedCoordinate
-                })
+                dispatchInfo({type: 'SET_SELECTED_COORD', payload: selectedCoordinate})
             }
           });
           const overlaySource = modify.getOverlay().getSource();

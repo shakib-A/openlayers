@@ -3,11 +3,15 @@ export const infoContext = createContext(null)
 
 const initialState = {
     selectedCoord: [],
+    isSideExpanded: false
 }
 const reducer = (state, action) => {
     switch(action.type) {
         case "SET_SELECTED_COORD": 
-        return { ...state, selectedCoord: action.payload }
+            return { ...state, selectedCoord: action.payload }
+        case "TOGGLE_SIDEBAR_STATE": {
+            return { ...state,  isSideExpanded: !state.isSideExpanded }
+        }
     }
 }
 
