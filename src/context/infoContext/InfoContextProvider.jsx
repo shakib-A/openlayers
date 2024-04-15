@@ -1,3 +1,4 @@
+import { Style, Stroke, Fill } from 'ol/style'
 import React, { createContext, useReducer } from 'react'
 export const infoContext = createContext(null)
 

@@ -1,8 +1,10 @@
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
-import GeoJSON from 'ol/format/GeoJSON.js';
+import Style from 'ol/style/Style'
+import { Text, Stroke, Fill } from 'ol/style.js'
 import React, { createContext, useReducer } from 'react'
 export const vectorLayerContext = createContext(null)
+
 
 const initialState = {
   initialVectoreLayer: new VectorLayer({
@@ -91,12 +93,30 @@ const reducer = (state, action) => {
             })}
           }
           case "TOGGLE_GEOJSON": {
-            const { geoJsonObject } = action.payload
+            const style = new Style({
+              text: new Text({
+                font: '16px Calibri,sans-serif',
+                overflow: true,
+              }),
+              stroke: new Stroke({
+                color: '#319FD3',
+                width: 1,
+              }),
+              fill: new Fill({
+                color: 'rgba(255, 255, 255, 0.6)',
+              }),
+            })
+      
             return { ...state, initialVectoreLayer: new VectorLayer({
               source: new VectorSource({
-                features:  new GeoJSON().readFeatures(JSON.stringify(geoJsonObject))
-              })
-            }) }
+                features:  action.payload,
+              }),
+              style: function (feature) {
+                const label = feature.get('persianname')
+                style.getText().setText(label)
+                return style
+              }
+            })}
           }
     }
 }

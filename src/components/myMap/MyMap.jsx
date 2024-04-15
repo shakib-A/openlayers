@@ -8,6 +8,7 @@ import Collection from 'ol/Collection.js'
 import Overlay from 'ol/Overlay.js';
 import { viewContext } from '../../context/viewContext/ViewContextProvider'
 import { infoContext } from '../../context/infoContext/InfoContextProvider'
+import { Style, Fill, Stroke } from 'ol/style'
 
 
 
@@ -44,12 +45,31 @@ const MyMap = () => {
 
         initialMap.on('click', function(e) {
           popupOvelay.setPosition(undefined)
-          const feature = initialMap.forEachFeatureAtPixel(e.pixel, (feature) => {
-            return feature
+          const regularFeature = initialMap.forEachFeatureAtPixel(e.pixel, (feature) => {
+            if(feature.getKeys().includes('persianname') === false){
+              return feature 
+            }
           })
-          if(feature) {
+          const polyGonFeature = initialMap.forEachFeatureAtPixel(e.pixel, (feature) => {
+            if(feature.getKeys().includes('persianname') === true){
+              return feature 
+            }
+          })
+          if(regularFeature) {
             popupOvelay.setPosition(e.coordinate)
-            popUp.innerHTML = feature.get('name')
+            popUp.innerHTML = regularFeature.get('name')
+          } else if(polyGonFeature) {
+            // popupOvelay.setPosition(e.coordinate)
+              polyGonFeature.setStyle(new Style({
+              fill: new Fill({
+                color: 'rgba(150, 150, 100, .6)'
+              }),
+              stroke: new Stroke({
+                color: '#319FD3',
+                width: 1,
+              })
+            }))
+            // popUp.innerHTML = polyGonFeature.get('persianname')
           } else {
             return
           }

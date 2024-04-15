@@ -4,8 +4,9 @@ export const viewContext = createContext(null)
 
 const initialState = {
     initialView: new View({
-        center: [0 , 0],
-        zoom: 2
+        center: [51.72272216, 32.65753944],
+        projection: 'EPSG:4326',
+        zoom: 10
     })
 }
 
