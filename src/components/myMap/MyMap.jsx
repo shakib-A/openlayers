@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import { vectorLayerContext } from '../../context/vectorLayerContext/VectorLayerContextProvider'
 import { tileLayerContext } from '../../context/tileLayerContext/TileLayerContextProvider'
 import './MyMap.css'
@@ -8,7 +8,10 @@ import Collection from 'ol/Collection.js'
 import Overlay from 'ol/Overlay.js';
 import { viewContext } from '../../context/viewContext/ViewContextProvider'
 import { infoContext } from '../../context/infoContext/InfoContextProvider'
-import { Style, Fill, Stroke } from 'ol/style'
+import { Style, Fill, Stroke, Text } from 'ol/style'
+import Select from 'ol/interaction/Select.js';
+import { click} from 'ol/events/condition.js';
+
 
 
 
@@ -21,6 +24,7 @@ const MyMap = () => {
     const { tileLayerStore } = useContext(tileLayerContext)
     const { viewStore } = useContext(viewContext)
     const { infoStore, dispatchInfo } = useContext(infoContext)
+    const [ selectedFeatures, useSelectedFeatures ] = useState(null)
 
 
     useEffect(() => {
@@ -59,22 +63,45 @@ const MyMap = () => {
             popupOvelay.setPosition(e.coordinate)
             popUp.innerHTML = regularFeature.get('name')
           } else if(polyGonFeature) {
-            // popupOvelay.setPosition(e.coordinate)
-              polyGonFeature.setStyle(new Style({
-              fill: new Fill({
-                color: 'rgba(150, 150, 100, .6)'
-              }),
-              stroke: new Stroke({
-                color: '#319FD3',
-                width: 1,
-              })
-            }))
+   
             // popUp.innerHTML = polyGonFeature.get('persianname')
           } else {
             return
           }
         })
         // ================================================
+
+        // create a ref for selected features (useState)
+        // create a style to put on selected features
+        const selectFeatureStyle = new Style({
+          text: new Text({
+            font: '16px Calibri,sans-serif',
+            overflow: true,
+          }),
+          fill: new Fill({
+            color: 'yellow'
+          }),
+          stroke: new Stroke({
+            color: 'rgba(150, 150,150, .7)',
+            width: 2
+          })
+        })
+        // a function to check if the feature selected has a color or not
+        function selectStyle(feature) {
+          const color = feature.get('COLOR') || 'yellow'
+          const label = feature.get('persianname')
+          selectFeatureStyle.getFill().setColor(color)
+          selectFeatureStyle.getText().setText(label)
+          return selectFeatureStyle
+        }
+        // create a select interaction and pass the function above to its style
+        const selectPolygon = new Select({
+          condition: click,
+          style: selectStyle
+        })
+        // add the created select interaction to map  
+        initialMap.addInteraction(selectPolygon)
+
 
         // extracting the pointerFeature --> adding it to new Collection
         // --> add the collection to modify.features to only modify pointer feature icon

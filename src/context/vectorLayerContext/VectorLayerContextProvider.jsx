@@ -93,11 +93,10 @@ const reducer = (state, action) => {
             })}
           }
           case "TOGGLE_GEOJSON": {
+            //TODO: it does not toggle. it just adds the geojson. fix it
+            //TODO: keep the points features on the list. don't remove them
+            
             const style = new Style({
-              text: new Text({
-                font: '16px Calibri,sans-serif',
-                overflow: true,
-              }),
               stroke: new Stroke({
                 color: '#319FD3',
                 width: 1,
@@ -111,11 +110,7 @@ const reducer = (state, action) => {
               source: new VectorSource({
                 features:  action.payload,
               }),
-              style: function (feature) {
-                const label = feature.get('persianname')
-                style.getText().setText(label)
-                return style
-              }
+              style: style
             })}
           }
     }
